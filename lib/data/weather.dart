@@ -44,8 +44,8 @@ class HourWeather {
   final double precipMm;
   final int humidity;
   final double feelslikeC;
-  final double feelslikeF;
   final double windchillC;
+  final double dewpointC;
   final double uv;
 
   HourWeather({
@@ -59,8 +59,8 @@ class HourWeather {
     required this.precipMm,
     required this.humidity,
     required this.feelslikeC,
-    required this.feelslikeF,
     required this.windchillC,
+    required this.dewpointC,
     required this.uv,
   });
 
@@ -75,8 +75,8 @@ class HourWeather {
       precipMm: json["precip_mm"]?.toDouble(),
       humidity: json["humidity"],
       feelslikeC: json["feelslike_c"]?.toDouble(),
-      feelslikeF: json["feelslike_f"]?.toDouble(),
       windchillC: json["windchill_c"]?.toDouble(),
+      dewpointC: json["dewpoint_c"]?.toDouble(),
       uv: json["uv"]?.toDouble());
 }
 
