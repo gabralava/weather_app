@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 
 import 'package:weather_app/data/conditions.dart';
 import 'package:weather_app/data/weather.dart';
+import 'package:weather_app/presentation/ui/dewpoint_pill.dart';
 import 'package:weather_app/service/date_convert.dart';
 import 'package:weather_app/service/from_json.dart';
 import 'package:weather_app/service/get_user_position.dart';
@@ -48,7 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
       condition = data[2];
       day = data[3];
       forecast = data[4];
-      hour = weather!.firstWhere((element) => element.time.substring(11, 13) == '${DateTime.now().hour}');
+      hour = weather!.firstWhere((element) =>
+          element.time.substring(11, 13) == '${DateTime.now().hour}');
     });
   }
 
@@ -105,14 +107,14 @@ class _HomeScreenState extends State<HomeScreen> {
               'Максимум ${day?.maxtempC.toInt()}° • Минимум ${day?.mintempC.toInt()}°',
               style: Theme.of(context).textTheme.bodySmall,
             ),
-            SizedBox(
+            const SizedBox(
               height: 64,
             ),
             Text(
               'Почасовой прогноз',
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Container(
@@ -125,12 +127,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: weather?.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: EdgeInsets.only(
-                      left: 16,
-                      right: 16,
-                    ),
+                    padding: const EdgeInsets.all(24),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           '${weather?[index].tempC.toInt()}°',
@@ -140,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             Image.network(
                               'http:${weather?[index].condition.icon ?? '//cdn0.iconfinder.com/data/icons/shift-free/32/Error-512.png'}',
-                              scale: 1.5,
+                              scale: 2,
                             ),
                             Text(
                               '${weather?[index].time.substring(11)}',
@@ -154,14 +153,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Text(
               'Прогноз погоды на 10 д.',
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             forecast != null
@@ -171,24 +170,24 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: forecast?.length,
                     itemBuilder: (context, index) {
                       return Padding(
-                        padding: EdgeInsets.only(bottom: 4),
+                        padding: const EdgeInsets.only(bottom: 4),
                         child: Container(
                             height: 46,
                             decoration: BoxDecoration(
                                 color: Theme.of(context).primaryColor,
                                 borderRadius: BorderRadius.only(
                                   topLeft: index == 0
-                                      ? Radius.circular(16)
-                                      : Radius.circular(4),
+                                      ? const Radius.circular(16)
+                                      : const Radius.circular(4),
                                   topRight: index == 0
-                                      ? Radius.circular(16)
-                                      : Radius.circular(4),
+                                      ? const Radius.circular(16)
+                                      : const Radius.circular(4),
                                   bottomLeft: index == 2
-                                      ? Radius.circular(16)
-                                      : Radius.circular(4),
+                                      ? const Radius.circular(16)
+                                      : const Radius.circular(4),
                                   bottomRight: index == 2
-                                      ? Radius.circular(16)
-                                      : Radius.circular(4),
+                                      ? const Radius.circular(16)
+                                      : const Radius.circular(4),
                                 )),
                             child: Padding(
                               padding:
@@ -215,14 +214,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   )
                 : const CircularProgressIndicator(),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Text(
               'Погода сейчас',
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             GridView.count(
@@ -236,15 +235,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                    borderRadius: const BorderRadius.all(Radius.circular(16)),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
+                    padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Скорость ветра', style: Theme.of(context).textTheme.bodyMedium,),
+                        Text(
+                          'Скорость ветра',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
                         Row(
                           children: [
                             Column(
@@ -252,16 +254,29 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    Text('${(hour?.windMph ?? 0 * 1.6).toInt()}', style: Theme.of(context).textTheme.labelLarge,),
-                                    Text(' км/ч', style: Theme.of(context).textTheme.bodySmall,)
+                                    Text(
+                                      '${(hour?.windMph ?? 0 * 1.6).toInt()}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge,
+                                    ),
+                                    Text(
+                                      ' км/ч',
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                    )
                                   ],
                                 ),
-                                Text(hour?.windDir ?? 'null', style: Theme.of(context).textTheme.bodySmall)
+                                Text(hour?.windDir ?? 'null',
+                                    style:
+                                        Theme.of(context).textTheme.labelSmall)
                               ],
                             ),
                           ],
                         ),
-                        SizedBox(height: 16,)
+                        const SizedBox(
+                          height: 16,
+                        )
                       ],
                     ),
                   ),
@@ -269,19 +284,71 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                    borderRadius: const BorderRadius.all(Radius.circular(16)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Влажность'),
+                        Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text('${hour?.humidity}'),
+                                    Text('%')
+                                  ],
+                                ),
+                                Text(
+                                  'Точка росы ${hour?.dewpointC.toInt()}°',
+                                  style: Theme.of(context).textTheme.labelSmall,
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              width: 16,
+                            ),
+                            Column(
+                              children: [
+                                Text('100',
+                                    style:
+                                        Theme.of(context).textTheme.labelSmall),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 8, bottom: 8),
+                                  child: DewpointPillWidget(
+                                    humidity: hour?.humidity.toDouble(),
+                                  ),
+                                ),
+                                Text('0',
+                                    style:
+                                        Theme.of(context).textTheme.labelSmall)
+                              ],
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 Container(
                   decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                    borderRadius: const BorderRadius.all(Radius.circular(16)),
                   ),
                 ),
                 Container(
                   decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                    borderRadius: const BorderRadius.all(Radius.circular(16)),
                   ),
                 ),
               ],
@@ -292,3 +359,5 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+// TODO: Выделить все конструкции в отдельные переменные
